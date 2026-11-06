@@ -1,0 +1,619 @@
+#include<iostream>
+#include<string>
+#include<vector>
+class product
+{
+    private:
+    std::string id;
+    std::string name;
+    double price;
+    int quantity;
+    public:
+    product()
+    {
+        id="";
+        name="";
+        price=0;
+        quantity=0;
+    }
+    virtual void input()
+    {
+        std::cout<<"ID: ";
+        getline(std::cin,id);
+        std::cout<<"Name device: ";
+        getline(std::cin,name);
+        do{
+            std::cout<<"Price: ";
+            std::cin>>price;
+            if(price<0)
+            std::cout<<"Invalid! "<<std::endl;
+        }
+        while(price<0);
+        do {
+        std::cout << "Quantity: ";
+         std::cin >> quantity;
+         if (quantity < 0) {
+        std::cout << "Invalid! " << std::endl;
+    }
+} while (quantity < 0);
+    }
+    virtual void output() const
+    {
+        std::cout<<"ID: "<<id<<std::endl
+                 <<"Name: "<<name<<std::endl
+                 <<"Price: "<<price<<std::endl;
+    }
+    virtual void Quantities() const
+    {
+        std::cout<<"Stock quantity: "<<quantity<<std::endl;
+    }
+    double getprice() const
+    {
+        return price;
+    }
+    int getquantity() const
+    {
+        return quantity;
+    }
+    std::string getName() const
+    {
+        return name;
+    }
+    std::string getID() const
+    {
+        return id;
+    }
+    void reduceQuantity(int amount)
+    {
+        quantity-=amount;
+    }
+    virtual ~product()=default;
+};
+class phone : public product
+{
+    private:
+    std::string brand;
+    std::string RAM;
+    std::string ROM;
+    public:
+    phone()
+    {
+        brand="";
+        RAM="";
+        ROM="";
+    }
+    void input() override
+{
+    product::input();
+
+    std::cin.ignore(1000, '\n');
+
+    std::cout << "Brand: ";
+    getline(std::cin, brand);
+
+    std::cout << "RAM: ";
+    getline(std::cin, RAM);
+
+    std::cout << "ROM: ";
+    getline(std::cin, ROM);
+}
+    void output() const override
+    {
+        product::output();
+        product::Quantities();
+        std::cout<<"Brand: "<<brand<<std::endl
+                 <<"RAM: "<<RAM<<std::endl
+                 <<"ROM: "<<ROM<<std::endl;
+    }
+};
+class accessory : public product
+{
+    private:
+    double warranty;
+    public:
+    accessory()
+    {
+        warranty=0;
+    }
+    void input() override
+    {
+        product::input();
+        do
+        {
+            std::cout<<"Warranty: ";
+            std::cin>>warranty;
+            if(warranty<0)
+            std::cout<<"Invalid!"<<std::endl;
+        } while (warranty<0);
+        
+    }
+    void output() const override
+    {
+        product::output();
+        product::Quantities();
+        std::cout<<"Warranty: "<<warranty<<std::endl;
+    }
+
+};
+class customer 
+{
+    private:
+    std::string id;
+    std::string name;
+    public:
+    customer()
+    {
+        id="";
+        name="";
+    }
+    void input()
+    {
+        std::cout<<"Customer's ID: ";
+        std::cin.ignore(1000, '\n');
+        getline(std::cin,id);
+        std::cout<<"Customer's name: ";
+        getline(std::cin,name);
+    }
+    void output()
+    {
+        std::cout<<"Customer's ID: "<<id<<std::endl
+                 <<"Customer's name: "<<name<<std::endl;
+    }
+    ~ customer()=default;
+};
+class store
+{
+    private:
+    std::vector<product*> products;
+    public:
+    store(){}
+    void addProduct()
+    {
+        product *p=nullptr;
+        int choice;
+        std::cout<<"Choose an option: "<<std::endl
+                 <<"1. Add a phone."<<std::endl
+                 <<"2. Add a accessory."<<std::endl;
+        do
+        {
+            std::cin>>choice;
+            std::cin.ignore();            
+            if(choice !=1 && choice !=2)
+            std::cout<<"Invalid!"<<std::endl;
+        }
+        while(choice !=1 && choice !=2);
+        switch(choice)
+        {
+            case 1:
+            {
+                p=new phone();
+                p->input();
+                break;
+            }
+            case 2:
+            {
+                p=new accessory();
+                p->input();
+                break;
+            }
+            default:
+                break;
+        }
+        products.push_back(p);
+    }
+    void showProduct() const
+    {
+        for( product *p : products)
+        {
+            p->output();
+        }
+    }
+    ~ store()
+    {
+        for( product *p: products)
+        {
+            delete (p);
+        }
+    }
+    void searchProduct()
+    {
+        bool found=false;
+        std::string getName;
+        getline(std::cin,getName);  
+        for(const product *p : products)
+        {
+        if(p->getName()==getName)
+        {
+            p->output();
+            found=true;
+        }
+        }
+        if(found==false)
+        {
+            std::cout<<"Can't found!"<<std::endl;
+        }
+    }
+    void totalprice()
+    {
+        double total=0;
+        double price;
+        int quantity;
+        for( product *p : products)
+        {
+            price=p-> getprice();
+            quantity=p-> getquantity();
+            total += (price*quantity);
+        }
+        std::cout<<"Total price: "<<total<<"USD"<<std::endl;
+    }
+    void sortProduct()
+    {
+        for(int i=0; i< products.size();i++)
+        {
+            for(int j=i+1; j< products.size();j++)
+            {
+                if((products[i]->getprice()) < (products[j]-> getprice()) )
+                {
+                    product *temp;
+                    temp=products[i];
+                    products[i]=products[j];
+                    products[j]=temp;
+                }
+            }
+        }
+        showProduct();
+    }
+    void editProduct()
+    {
+            std::string id;
+            std::cin.ignore();
+            getline(std::cin,id);
+            bool found= false;
+            for(int i=0;i<products.size();i++)
+            {
+                if(id==products[i]->getID())
+                {
+                    found=true;
+                    products[i]-> input();
+                    std::cout<<"Edit successfully!"<<std::endl;
+                    break;
+                }
+            }
+            if(found==false)
+            {
+                std::cout<<"Can't found this product!"<<std::endl;
+            }
+
+    }
+    void deleteProduct()
+    {
+        std::string id;
+        getline(std::cin,id);
+        bool found= false;
+            for(int i=0;i<products.size();i++)
+            {
+                if(id==products[i]->getID())
+                {
+                    found=true;
+                    delete(products[i]);
+                    products.erase(products.begin()+i);
+                    std::cout<<"Delete successfully!"<<std::endl;
+                    break;
+                }
+            }
+            if(found==false)
+            {
+                std::cout<<"Can't found this product!"<<std::endl;
+            }
+    }
+    product* foundProduct()
+    {
+        std::string id;
+        getline(std::cin,id);
+        bool found=false;
+        for(product *p: products)
+        {
+            if(id==p->getID())
+            {
+                std::cout<<"Find successfully!"<<std::endl;
+                found=true;
+                return p;
+            }
+        }
+        if(found==false)
+        {
+            std::cout<<"Can't find this product!"<<std::endl;
+            return nullptr;
+        }
+    }
+};
+class Bill
+{
+    private:
+    int maKH;
+    customer people;
+    std::vector<product*> bought;
+    std::vector<int>quantities;
+    double total;  
+    public:
+    Bill (){
+        maKH=0;
+        total=0;
+    }
+    void addProductToBill(store &s)
+    {
+        product *p;
+        int quantity;
+        int choose;
+        p=s.foundProduct();
+        if(p!=nullptr)
+        {
+            std::cout<<"Are you sure to buy this product?"<<std::endl
+                     <<"1.Yes"<<std::endl
+                     <<"2.No"<<std::endl;
+            do
+            {
+                std::cin>>choose;
+                if(choose!=1 && choose!=2)
+                {
+                    std::cout<<"Invalid option!"<<std::endl<<"Choose again!"<<std::endl;
+                }
+            }
+            while(choose!=1 && choose!=2);
+                    
+            switch(choose)
+            {
+                case 1:
+            {
+            do
+            {
+                 std::cout<<"Quantity: "<<std::endl;
+                 std::cin>>quantity;
+                 std::cin.ignore();
+                 if(quantity<0 ||quantity > p->getquantity())
+                 {
+                    std::cout<<"Invalid !\n Try Again "<<std::endl;
+                 }
+            }
+            while(quantity<=0 ||quantity > p->getquantity());
+            bought.push_back(p);
+            quantities.push_back(quantity);
+            break;
+            }
+                case 2:
+                break;
+            }
+        }
+
+    }
+    double totalBill()
+    {
+        total=0;
+        for(int i=0;i<bought.size();i++)
+        {
+            total+= bought[i]->getprice() * quantities[i];
+        }
+        return total;
+    }
+    void showBill()
+    {
+        people.output();
+        std::cout<<"Buying list:"<<std::endl;
+        for(int i=0;i< bought.size();i++)
+        {
+            bought[i]->output();
+            std::cout<<"Quantity: "<<quantities[i];
+        }
+        std::cout<<"Total Bill: "<<totalBill()<<std::endl;
+        std::cout<<"Are you sure want to buy all of this?"<<std::endl
+                 <<"1.Yes"<<std::endl
+                     <<"2.No"<<std::endl;
+                      int choose;
+            do
+            {
+                std::cin>>choose;
+                if(choose!=1 && choose!=2)
+                {
+                    std::cout<<"Invalid option!"<<std::endl<<"Choose again!"<<std::endl;
+                }
+            }
+            while(choose!=1 && choose!=2);
+            switch(choose)
+            {
+                case 1:
+            {
+                 std::cout<<"Buy successfully!!!";
+                 for(int i=0;i< bought.size();i++)
+                 {
+                    bought[i]->reduceQuantity(quantities[i]);
+                    bought.clear();
+                    quantities.clear();
+                 }
+                 break;
+
+            }
+                case 2:
+                {
+                    std::cout<<"Do you want to clear bill?";
+                    int choose;
+                    do
+            {
+                std::cin>>choose;
+                if(choose!=1 && choose!=2)
+                {
+                    std::cout<<"Invalid option!"<<std::endl<<"Choose again!"<<std::endl;
+                }
+            }
+            while(choose!=1 && choose!=2);
+            if(choose==1)
+            {
+                 for(int i=0;i< bought.size();i++)
+                 {
+                    bought.clear();
+                    quantities.clear();
+                 }
+                 break;
+            }
+            else
+            break;
+                }
+            }
+    }
+    void boughtList()
+    {
+        std::cout<<"Buying list:"<<std::endl;
+        for(int i=0;i< bought.size();i++)
+        {
+            bought[i]->output();
+            std::cout<<"Quantity: "<<quantities[i];
+        }
+        std::cout<<"Total Bill: "<<totalBill()<<std::endl;
+    }
+    void inputCustomer()
+{
+    people.input();
+}
+
+bool isEmpty() const
+{
+    return bought.empty();
+}
+};
+
+int main()
+{
+    store s;
+    Bill bill;
+
+    int choice;
+
+    do
+    {
+        std::cout << "\n========== STORE MANAGEMENT ==========\n"
+                  << "1. Add product\n"
+                  << "2. Show all products\n"
+                  << "3. Search product\n"
+                  << "4. Calculate total stock value\n"
+                  << "5. Sort products by price\n"
+                  << "6. Edit product\n"
+                  << "7. Delete product\n"
+                  << "8. Create / Continue a bill\n"
+                  << "0. Exit\n"
+                  << "Your choice: ";
+
+        std::cin >> choice;
+
+        switch(choice)
+        {
+            case 1:
+            {
+                s.addProduct();
+                break;
+            }
+
+            case 2:
+            {
+                s.showProduct();
+                break;
+            }
+
+            case 3:
+            {
+                std::cin.ignore(1000, '\n');
+
+                std::cout << "Enter product name: ";
+                s.searchProduct();
+
+                break;
+            }
+
+            case 4:
+            {
+                s.totalprice();
+                break;
+            }
+
+            case 5:
+            {
+                s.sortProduct();
+                break;
+            }
+
+            case 6:
+            {
+                std::cout << "Enter product ID: ";
+                s.editProduct();
+
+                break;
+            }
+
+            case 7:
+            {
+                std::cin.ignore(1000, '\n');
+
+                std::cout << "Enter product ID: ";
+                s.deleteProduct();
+
+                break;
+            }
+
+            case 8:
+            {
+                if(bill.isEmpty())
+                {
+                    bill.inputCustomer();
+                }
+                else
+                {
+                    std::cin.ignore(1000, '\n');
+                }
+
+                int more;
+
+                do
+                {
+                    std::cout << "Enter product ID: ";
+
+                    bill.addProductToBill(s);
+
+                    do
+                    {
+                        std::cout << "\nDo you want to add another product?\n"
+                                  << "1. Yes\n"
+                                  << "2. No\n";
+
+                        std::cin >> more;
+
+                        if(more != 1 && more != 2)
+                        {
+                            std::cout << "Invalid option! Try again.\n";
+                        }
+
+                    } while(more != 1 && more != 2);
+
+                    std::cin.ignore(1000, '\n');
+
+                } while(more == 1);
+
+                bill.showBill();
+
+                break;
+            }
+
+            case 0:
+            {
+                std::cout << "Exiting program...\n";
+                break;
+            }
+
+            default:
+            {
+                std::cout << "Invalid choice! Try again.\n";
+                break;
+            }
+        }
+
+    } while(choice != 0);
+
+    return 0;
+}
