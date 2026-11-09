@@ -1,13 +1,13 @@
 #pragma once
-#include"Vehicle.h"
-#include"Bill.h"
-#include<string>
-#include<vector>
-class FileManager{
-public:
+#include <string>
+#include <vector>
+#include "Vehicle.h"
+#include "Bill.h"
 
-static vector<Vehicle*> docDanhSachXe(C:|nhomOOP|quan-ly-cua-hang-xe|data|cuahang_xe.txt);
-static void ghiDanhSachXe(C:|nhomOOP|quan-ly-cua-hang-xe|data|cuahang_xe.txt,ds:vector<Vehicle*>);
-static vector<Bill> docHoaDon(C:|nhomOOP|quan-ly-cua-hang-xe|data|cuahang_hoadon.txt);
-static voi ghiHoaDon(C:|nhomOOP|quan-ly-cua-hang-xe|data|cuahang_hoadon.txt,ds:vector<Bill>);
+class FileManager {
+public:
+    static std::vector<Vehicle*> docDanhSachXe(const std::string& tenFile);
+    static void ghiDanhSachXe(const std::string& tenFile, const std::vector<Vehicle*>& ds);
+    static std::vector<Bill> docHoaDon(const std::string& tenFile);
+    static void ghiHoaDon(const std::string& tenFile, const std::vector<Bill>& ds);
 };
