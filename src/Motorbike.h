@@ -19,4 +19,8 @@ public:
     std::string getLoaiXe() const override;
     double tinhPhiBaoTri() const override;
     void hienThiThongTin() const override;
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> c7e65ac (A1)
