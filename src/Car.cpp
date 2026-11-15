@@ -8,7 +8,7 @@ int Car::getSoChoNgoi()const
 {
     return soChoNgoi;
 }
-string Car::getKieuHopSo()const
+std::string Car::getKieuHopSo()const
 {
     return kieuHopSo;
 } 
@@ -16,7 +16,7 @@ double Car::tinhPhiBaoTri() const
 {
     return 0.02 * getGiaBan();
 }
-string Car::getLoaiXe() const 
+std::string Car::getLoaiXe() const 
 {
     return "Xe hoi";
 } 
@@ -26,4 +26,4 @@ void Car::hienThiThongTin() const
                 std::cout<<"so cho ngoi:"<<getSoChoNgoi()<<std::endl;
                 std::cout<<"kieu hop so:"<<getKieuHopSo() <<std::endl;
 }  
-        
+       
