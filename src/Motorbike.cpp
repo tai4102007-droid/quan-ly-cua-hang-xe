@@ -9,7 +9,7 @@ Motorbike::Motorbike(const std::string& maXe, const std::string& tenXe,
   { 
     return phanKhoi;
   }            
-  string getloaiXeMay()const
+  std::string getloaiXeMay()const
   {
     return loaiXeMay;
   }
