@@ -8,25 +8,51 @@ Vehicle::Vehicle(const std::string& maXe, const std::string& tenXe,
 
 Vehicle::~Vehicle() {}
 
-std::string Vehicle::getMaXe() const 
+std::string Vehicle::getmaXe() const 
 { 
-  return maXe;
+    return maXe; 
 }
-double Vehicle::getGiaBan() const
+std::string Vehicle::gettenXe() const 
 { 
-  return giaBan;
+    return tenXe; 
 }
-std::string Vehicle::getLoaiXe() const 
+std::string Vehicle::gethangSanXuat() const 
 { 
-  return "Xe";
+    return hangSanXuat; 
+}
+int Vehicle::getnamSanXuat() const
+{
+    return namSanXuat; 
+}
+int Vehicle::getsoLuongTon() const
+{
+    return soLuongTon; 
+}
+double Vehicle::getgiaBan() const 
+{
+     return giaBan; 
+}
+std::string Vehicle::getloaiXe() const 
+{ 
+    return "Xe"; 
 }
 
-bool Vehicle::operator>(const Vehicle& other) const
+bool Vehicle::operator>(const Vehicle& other) const 
 {
     return giaBan > other.giaBan;
 }
+
 std::ostream& operator<<(std::ostream& os, const Vehicle& xe) {
-    os << xe.getMaXe() << " | " << xe.tenXe << " | " << xe.hangSanXuat << " | "
-       << xe.namSanXuat << " | " << xe.giaBan << " | ton: " << xe.soLuongTon<<endl;
+    os << xe.maXe << " | " << xe.tenXe << " | " << xe.hangSanXuat << " | "
+       << xe.namSanXuat << " | " << xe.giaBan << " | ton: " << xe.soLuongTon;
     return os;
+}
+void Vehicle::hienThongTin() const
+{
+    std::cout<<"ma xe:"<<getmaXe()<<std::endl;
+    std::cout<<"ten xe:"<<gettenXe()<<std::endl;
+    std::cout<<"hang san xuat:"<<gethangSanXuat()<<std::endl;
+    std::cout<<"nam san xuat:"<<getnamSanXuat()<<std::endl;
+    std::cout<<"gia ban:"<<getgiaBan()<<std::endl;
+    std::cout<<"so luong ton:"<<getsoLuongTon()<<std::endl;
 }
