@@ -28,7 +28,7 @@ Motorbike::Motorbike(const std::string& maXe, const std::string& tenXe,
         return 0.01*getGiaBan() + 200000;
     }
   }
-  void hienThiThongTin() const
+  void Motorbike :: hienThiThongTin() const
   {
                 Vehicle::hienThiThongTin();   
                 std::cout<<"phan khoi:"<<getphanKhoi()<<std::endl;
