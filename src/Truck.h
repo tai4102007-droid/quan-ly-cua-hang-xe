@@ -19,5 +19,5 @@ public:
 
     std::string getLoaiXe() const override;
     double tinhPhiBaoTri() const override;
-    void hienThiThongTin() const ;
+    void hienThiThongTin() const override ;
 };
