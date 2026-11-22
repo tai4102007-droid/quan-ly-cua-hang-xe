@@ -1,8 +1,6 @@
 #pragma once
 #include <iostream>
-#include <string>
-
-// Lop truu tuong: cha cua Car, Motorbike, Truck
+#include<string>
 class Vehicle {
 protected:
     std::string maXe;
@@ -18,12 +16,16 @@ public:
             double giaBan, int soLuongTon);
     virtual ~Vehicle();
 
-    std::string getMaXe() const;
+    std::string getmaXe() const;
+    std::string gettenXe() const;
+    std::string gethangSanXuat() const;
+    int getnamSanXuat() const;
+    int getsoLuongTon() const;
     double getGiaBan() const;
     virtual std::string getLoaiXe() const;
 
-    virtual void hienThiThongTin() const = 0;   // ham thuan ao
-    virtual double tinhPhiBaoTri() const = 0;   // ham thuan ao
+    virtual void hienThiThongTin() const = 0 ;   
+    virtual double tinhPhiBaoTri() const = 0;   
 
     bool operator>(const Vehicle& other) const;
     friend std::ostream& operator<<(std::ostream& os, const Vehicle& xe);
