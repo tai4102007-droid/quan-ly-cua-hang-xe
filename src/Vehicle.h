@@ -24,7 +24,7 @@ public:
     double getGiaBan() const;
     virtual std::string getLoaiXe() const;
 
-    virtual void hienThiThongTin() const ;   
+    virtual void hienThiThongTin() const = 0 ;   
     virtual double tinhPhiBaoTri() const = 0;   
 
     bool operator>(const Vehicle& other) const;
