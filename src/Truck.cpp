@@ -20,7 +20,7 @@
             {
                 return "Xe tai";
             }
-            void Car::hienThiThongTin() const 
+            void Truck :: hienThiThongTin() const 
             {
                 Vehicle::hienThiThongTin();                
                 std::cout<<"tai trong:"<<taiTrong<<std::endl;
