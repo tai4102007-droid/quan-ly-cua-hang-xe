@@ -2,7 +2,7 @@
 #include"Shop"
 class Main{
 private:
-Shop shop;
+Shop s;
 public:
 Main();
 void hienThiThongTin();
